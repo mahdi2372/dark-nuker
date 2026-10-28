@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dark-nuker"
+version = "1.0.0"
+description = "DARK NUKER — ultra advanced Discord nuker developed by Mahdi"
+requires-python = ">=3.11"
+dependencies = [
+  "discord.py-self>=2.0.0",
+  "rich>=13.7.0",
+  "python-dotenv>=1.0.0",
+  "keyring>=25.0.0",
+  "aiohttp-socks>=0.8.0",
+  "orjson>=3.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "pytest-asyncio>=0.23.0",
+  "ruff>=0.5.0",
+  "mypy>=1.10.0",
+]
+
+[project.scripts]
+nukebot = "nukebot.__main__:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

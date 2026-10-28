@@ -1,0 +1,11 @@
+{
+  "mode": "bot",
+  "max_concurrency": 5,
+  "default_dry_run": false,
+  "backup_dir": "backups",
+  "log_level": "INFO",
+  "proxy": null,
+  "abort_on_error": false,
+  "bulk_delete_batch_size": 100,
+  "selfbot_max_concurrency": 3
+}
