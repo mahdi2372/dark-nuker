@@ -69,8 +69,7 @@ async def _login(config: Config):
             success(f"Token saved to profile '{profile}'")
         else:
             warning("Could not save token (keyring unavailable)")
-    intents = make_intents(mode)
-    client = await create_client(mode, token, intents, proxy=getattr(config, "proxy", None))
+    client = await create_client(mode, token, proxy=getattr(config, "proxy", None))
     mode = client.mode
     return client, mode
 

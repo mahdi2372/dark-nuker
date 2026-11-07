@@ -51,8 +51,7 @@ async def _bootstrap(args):
     token = get_token(mode, args.profile, args.token)
     if not token:
         raise RuntimeError("No token found. Set BOT_TOKEN/USER_TOKEN or use --token.")
-    intents = make_intents(mode)
-    client = await create_client(mode, token, intents, proxy=config.proxy)
+    client = await create_client(mode, token, proxy=config.proxy)
     mode = client.mode
     await client.wait_until_ready()
     guild = client.get_guild(args.guild) if args.guild else None
@@ -72,7 +71,7 @@ async def run_commands(args) -> int:
         token = get_token(mode, args.profile, args.token)
         if not token:
             raise RuntimeError("No token found.")
-        client = await create_client(mode, token, make_intents(mode), proxy=config.proxy)
+        client = await create_client(mode, token, proxy=config.proxy)
         mode = client.mode
         await client.wait_until_ready()
         info = await token_check(client)

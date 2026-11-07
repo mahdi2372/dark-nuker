@@ -13,12 +13,12 @@ log = get_logger("client")
 
 
 class NukeClient(discord.Client):
-    def __init__(self, mode: str, intents: discord.Intents | None = None, proxy: str | None = None, **kwargs: Any):
+    def __init__(self, mode: str, intents=None, proxy: str | None = None, **kwargs: Any):
         self.mode = mode
         self.is_bot_mode = mode == "bot"
         if proxy:
             kwargs["proxy"] = proxy
-        super().__init__(intents=intents or discord.Intents.all(), **kwargs)
+        super().__init__(**kwargs)
 
     async def login(self, token: str, *, bot: bool | None = None, **kwargs: Any) -> None:
         # discord.py-self detects bot/user tokens automatically.
@@ -34,8 +34,8 @@ class NukeClient(discord.Client):
         return f"mode={self.mode} user={user} id={user.id}"
 
 
-async def create_client(mode: str, token: str, intents: discord.Intents | None = None, proxy: str | None = None) -> NukeClient:
-    client = NukeClient(mode=mode, intents=intents, proxy=proxy)
+async def create_client(mode: str, token: str, intents=None, proxy: str | None = None) -> NukeClient:
+    client = NukeClient(mode=mode, proxy=proxy)
     await client.login(token)
     if client.user is not None:
         client.is_bot_mode = bool(getattr(client.user, "bot", False))
