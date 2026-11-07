@@ -15,8 +15,8 @@ async def token_check(client: Any) -> dict[str, Any]:
         if user is None:
             await client.wait_until_ready()
             user = client.user
-        guilds = [g.name for g in client.guilds]
-        return {"valid": True, "user": str(user), "id": user.id, "guilds": guilds}
+        guilds = [{"id": g.id, "name": g.name, "members": g.member_count} for g in client.guilds]
+        return {"valid": True, "user": str(user), "id": user.id, "bot": getattr(user, "bot", False), "guilds": guilds}
     except Exception as exc:  # noqa: BLE001
         return {"valid": False, "error": str(exc)}
 
