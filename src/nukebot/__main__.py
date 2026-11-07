@@ -13,6 +13,7 @@ from nukebot.storage.secrets import load_dotenv
 
 
 import sys
+from pathlib import Path
 
 def main(argv=None) -> int:
     for stream in (sys.stdout, sys.stderr):
@@ -31,11 +32,15 @@ def main(argv=None) -> int:
     if args.command is None:
         try:
             return asyncio.run(run_interactive(config))
-        except KeyboardInterrupt:
-            print("Interrupted.")
-            return 130
+        except (EOFError, KeyboardInterrupt):
+            print("\nExited.")
+            return 0
         except Exception as exc:  # noqa: BLE001
+            import traceback
+
+            Path("crash.log").write_text(traceback.format_exc(), encoding="utf-8")
             print(f"Error: {exc}")
+            print("Details saved to crash.log")
             return 1
     return asyncio.run(run_commands(args))
 
